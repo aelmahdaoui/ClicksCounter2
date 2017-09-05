@@ -2,8 +2,10 @@ package com.cleaning.aelmahdaoui.clickscounter2;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -13,6 +15,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Log.d("CREATION: ", "App is launching");
+
+        if (savedInstanceState != null) {
+            count = savedInstanceState.getInt("count");
+            Log.d("CREATION: ", "count is now " + count);
+            display(count);
+        }
     }
 
     private void display (int number) {
@@ -38,6 +48,13 @@ public class MainActivity extends AppCompatActivity {
         intent.setType("message/rfc822");
         chooser = Intent.createChooser(intent, "Send Email");
         startActivity(chooser);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt("count", count);
+        Log.d("SAVING", "Saved count is " + count);
+        super.onSaveInstanceState(outState);
     }
 }
 
